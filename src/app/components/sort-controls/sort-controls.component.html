@@ -1,1 +1,35 @@
-<p>sort-controls works!</p>
+<div class="sort-controls">
+  <span class="sort-label">Ordenar por:</span>
+  <div class="sort-group">
+    <button
+      class="sort-btn"
+      [class.active]="isActive('price', 'asc')"
+      (click)="setSort('price', 'asc')"
+    >
+      Precio ↑
+    </button>
+    <button
+      class="sort-btn"
+      [class.active]="isActive('price', 'desc')"
+      (click)="setSort('price', 'desc')"
+    >
+      Precio ↓
+    </button>
+  </div>
+  <div class="sort-group">
+    <button
+      class="sort-btn"
+      [class.active]="isActive('rating', 'asc')"
+      (click)="setSort('rating', 'asc')"
+    >
+      Rating ↑
+    </button>
+    <button
+      class="sort-btn"
+      [class.active]="isActive('rating', 'desc')"
+      (click)="setSort('rating', 'desc')"
+    >
+      Rating ↓
+    </button>
+  </div>
+</div>
