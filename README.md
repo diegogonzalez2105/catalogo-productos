@@ -4,7 +4,7 @@ Aplicación web en **Angular 17** que permite visualizar, explorar y gestionar u
 
 ---
 
-## 🚀 Tecnologías utilizadas
+##  Tecnologías utilizadas
 
 - **Angular 17** (Standalone Components)
 - **NgRx 17** (Store, Effects, Selectors) — Manejo de estado global
@@ -14,7 +14,7 @@ Aplicación web en **Angular 17** que permite visualizar, explorar y gestionar u
 
 ---
 
-## ✅ Funcionalidades implementadas
+##  Funcionalidades implementadas
 
 ### Visualización y Navegación
 - Catálogo con grilla responsiva de productos
@@ -45,7 +45,7 @@ Aplicación web en **Angular 17** que permite visualizar, explorar y gestionar u
 
 ---
 
-## 📁 Estructura del proyecto
+##  Estructura del proyecto
 
 src/app/
 ├── components/
@@ -66,7 +66,7 @@ src/app/
 
 ---
 
-## 🛠️ Instalación y uso
+##  Instalación y uso
 
 ### Prerrequisitos
 - Node.js v18 o superior
@@ -112,7 +112,7 @@ ng build
 
 ---
 
-## 🌐 API
+##  API
 
 Endpoint base: `https://dummyjson.com/products`
 
@@ -123,7 +123,7 @@ Endpoint base: `https://dummyjson.com/products`
 
 ---
 
-## 🧪 Pruebas unitarias — 26 SUCCESS
+##  Pruebas unitarias — 26 SUCCESS
 
 | Suite | Pruebas |
 |-------|---------|
