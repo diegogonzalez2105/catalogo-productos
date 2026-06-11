@@ -80,7 +80,7 @@ npm install -g @angular/cli@17
 ### Clonar el repositorio
 
 ```bash
-git clone https://github.com/TU_USUARIO/catalogo-productos.git
+git clone https://github.com/diegogonzalez2105/catalogo-productos.git
 cd catalogo-productos
 ```
 
