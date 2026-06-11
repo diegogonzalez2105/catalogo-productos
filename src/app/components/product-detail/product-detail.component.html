@@ -23,120 +23,122 @@
       <p>Producto no encontrado</p>
       <a routerLink="/">Volver al catálogo</a>
     </div>
-  } @else if (product$ | async; as product) {
-    <div class="detail-layout">
-      <div class="detail-gallery">
-        <app-carousel [images]="product.images" [alt]="product.title" />
-        @if (product.brand) {
-          <div class="brand-tag">{{ product.brand }}</div>
-        }
-      </div>
-      <div class="detail-info">
-        <div class="info-header">
-          <span class="category-badge">{{ product.category }}</span>
-          <span class="sku">SKU: {{ product.sku }}</span>
-        </div>
-        <h1 class="product-title">{{ product.title }}</h1>
-        <div class="rating-row">
-          @for (star of getStars(); track star) {
-            <span class="star" [class.filled]="star <= product.rating">★</span>
-          }
-          <span class="rating-num">{{ product.rating | number:'1.1-1' }}</span>
-          <span class="reviews-count">({{ product.reviews.length }} reseñas)</span>
-        </div>
-        <div class="price-block">
-          <span class="main-price">${{ getDiscountedPrice(product) | number:'1.2-2' }}</span>
-          @if (product.discountPercentage > 0) {
-            <span class="orig-price">${{ product.price | number:'1.2-2' }}</span>
-            <span class="discount-tag">{{ product.discountPercentage | number:'1.1-1' }}% OFF</span>
+  } @else {
+    @if (product$ | async; as product) {
+      <div class="detail-layout">
+        <div class="detail-gallery">
+          <app-carousel [images]="product.images" [alt]="product.title" />
+          @if (product.brand) {
+            <div class="brand-tag">{{ product.brand }}</div>
           }
         </div>
-        <p class="description">{{ product.description }}</p>
-        <div class="meta-grid">
-          <div class="meta-item">
-            <span class="meta-label">Stock</span>
-            <span class="meta-value" [class.low]="product.stock < 10">{{ product.stock }} unidades</span>
+        <div class="detail-info">
+          <div class="info-header">
+            <span class="category-badge">{{ product.category }}</span>
+            <span class="sku">SKU: {{ product.sku }}</span>
           </div>
-          <div class="meta-item">
-            <span class="meta-label">Estado</span>
-            <span class="meta-value">{{ product.availabilityStatus }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Garantía</span>
-            <span class="meta-value">{{ product.warrantyInformation }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Envío</span>
-            <span class="meta-value">{{ product.shippingInformation }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Devoluciones</span>
-            <span class="meta-value">{{ product.returnPolicy }}</span>
-          </div>
-          <div class="meta-item">
-            <span class="meta-label">Mín. pedido</span>
-            <span class="meta-value">{{ product.minimumOrderQuantity }} unidades</span>
-          </div>
-        </div>
-        <div class="dimensions">
-          <h3 class="section-title">Dimensiones</h3>
-          <div class="dim-grid">
-            <div class="dim-item">
-              <span class="dim-label">Ancho</span>
-              <strong>{{ product.dimensions.width }} cm</strong>
-            </div>
-            <div class="dim-item">
-              <span class="dim-label">Alto</span>
-              <strong>{{ product.dimensions.height }} cm</strong>
-            </div>
-            <div class="dim-item">
-              <span class="dim-label">Profundidad</span>
-              <strong>{{ product.dimensions.depth }} cm</strong>
-            </div>
-          </div>
-        </div>
-        <div class="cart-actions">
-          <button
-            class="add-cart-btn"
-            (click)="addToCart(product)"
-            [class.in-cart]="isInCart(product.id) | async"
-          >
-            @if (isInCart(product.id) | async) {
-              ✓ En el carrito ({{ itemQuantity(product.id) | async }})
-            } @else {
-              Agregar al carrito
+          <h1 class="product-title">{{ product.title }}</h1>
+          <div class="rating-row">
+            @for (star of getStars(); track star) {
+              <span class="star" [class.filled]="star <= product.rating">★</span>
             }
-          </button>
-          @if (isInCart(product.id) | async) {
-            <button class="remove-cart-btn" (click)="removeFromCart(product.id)">
-              Quitar del carrito
-            </button>
-          }
-        </div>
-      </div>
-    </div>
-
-    <section class="reviews-section">
-      <h2 class="section-heading">Reseñas de clientes</h2>
-      <div class="reviews-grid">
-        @for (review of product.reviews; track review.reviewerEmail) {
-          <div class="review-card">
-            <div class="review-header">
-              <div class="reviewer-avatar">{{ review.reviewerName[0] }}</div>
-              <div>
-                <p class="reviewer-name">{{ review.reviewerName }}</p>
-                <p class="review-date">{{ formatDate(review.date) }}</p>
+            <span class="rating-num">{{ product.rating | number:'1.1-1' }}</span>
+            <span class="reviews-count">({{ product.reviews.length }} reseñas)</span>
+          </div>
+          <div class="price-block">
+            <span class="main-price">${{ getDiscountedPrice(product) | number:'1.2-2' }}</span>
+            @if (product.discountPercentage > 0) {
+              <span class="orig-price">${{ product.price | number:'1.2-2' }}</span>
+              <span class="discount-tag">{{ product.discountPercentage | number:'1.1-1' }}% OFF</span>
+            }
+          </div>
+          <p class="description">{{ product.description }}</p>
+          <div class="meta-grid">
+            <div class="meta-item">
+              <span class="meta-label">Stock</span>
+              <span class="meta-value" [class.low]="product.stock < 10">{{ product.stock }} unidades</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Estado</span>
+              <span class="meta-value">{{ product.availabilityStatus }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Garantía</span>
+              <span class="meta-value">{{ product.warrantyInformation }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Envío</span>
+              <span class="meta-value">{{ product.shippingInformation }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Devoluciones</span>
+              <span class="meta-value">{{ product.returnPolicy }}</span>
+            </div>
+            <div class="meta-item">
+              <span class="meta-label">Mín. pedido</span>
+              <span class="meta-value">{{ product.minimumOrderQuantity }} unidades</span>
+            </div>
+          </div>
+          <div class="dimensions">
+            <h3 class="section-title">Dimensiones</h3>
+            <div class="dim-grid">
+              <div class="dim-item">
+                <span class="dim-label">Ancho</span>
+                <strong>{{ product.dimensions.width }} cm</strong>
               </div>
-              <div class="review-stars">
-                @for (star of getStars(); track star) {
-                  <span class="star sm" [class.filled]="star <= review.rating">★</span>
-                }
+              <div class="dim-item">
+                <span class="dim-label">Alto</span>
+                <strong>{{ product.dimensions.height }} cm</strong>
+              </div>
+              <div class="dim-item">
+                <span class="dim-label">Profundidad</span>
+                <strong>{{ product.dimensions.depth }} cm</strong>
               </div>
             </div>
-            <p class="review-comment">{{ review.comment }}</p>
           </div>
-        }
+          <div class="cart-actions">
+            <button
+              class="add-cart-btn"
+              (click)="addToCart(product)"
+              [class.in-cart]="isInCart(product.id) | async"
+            >
+              @if (isInCart(product.id) | async) {
+                ✓ En el carrito ({{ itemQuantity(product.id) | async }})
+              } @else {
+                Agregar al carrito
+              }
+            </button>
+            @if (isInCart(product.id) | async) {
+              <button class="remove-cart-btn" (click)="removeFromCart(product.id)">
+                Quitar del carrito
+              </button>
+            }
+          </div>
+        </div>
       </div>
-    </section>
+
+      <section class="reviews-section">
+        <h2 class="section-heading">Reseñas de clientes</h2>
+        <div class="reviews-grid">
+          @for (review of product.reviews; track review.reviewerEmail) {
+            <div class="review-card">
+              <div class="review-header">
+                <div class="reviewer-avatar">{{ review.reviewerName[0] }}</div>
+                <div>
+                  <p class="reviewer-name">{{ review.reviewerName }}</p>
+                  <p class="review-date">{{ formatDate(review.date) }}</p>
+                </div>
+                <div class="review-stars">
+                  @for (star of getStars(); track star) {
+                    <span class="star sm" [class.filled]="star <= review.rating">★</span>
+                  }
+                </div>
+              </div>
+              <p class="review-comment">{{ review.comment }}</p>
+            </div>
+          }
+        </div>
+      </section>
+    }
   }
 </div>
