@@ -1,18 +1,48 @@
 import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-import { ProductsResponse, Product } from '../../models/product.model';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { catchError, map, mergeMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { ProductService } from '../../services/product.service';
+import { Product } from '../../models/product.model';
+import {
+  loadProducts,
+  loadProductsSuccess,
+  loadProductsFailure,
+  loadProductById,
+  loadProductByIdSuccess,
+  loadProductByIdFailure
+} from './products.actions';
 
-@Injectable({ providedIn: 'root' })
-export class ProductService {
-  private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'https://dummyjson.com/products';
+@Injectable()
+export class ProductsEffects {
+  private actions$ = inject(Actions);
+  private productService = inject(ProductService);
 
-  getProducts(limit = 30, skip = 0): Observable<ProductsResponse> {
-    return this.http.get<ProductsResponse>(`${this.baseUrl}?limit=${limit}&skip=${skip}`);
-  }
+  loadProducts$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadProducts),
+      mergeMap(() =>
+        this.productService.getProducts(30).pipe(
+          map(response => loadProductsSuccess({ products: response.products })),
+          catchError((error: Error) =>
+            of(loadProductsFailure({ error: error.message ?? 'Error desconocido' }))
+          )
+        )
+      )
+    )
+  );
 
-  getProductById(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.baseUrl}/${id}`);
-  }
+  loadProductById$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadProductById),
+      mergeMap(({ id }) =>
+        this.productService.getProductById(id).pipe(
+          map((product: Product) => loadProductByIdSuccess({ product })),
+          catchError((error: Error) =>
+            of(loadProductByIdFailure({ error: error.message ?? 'Error desconocido' }))
+          )
+        )
+      )
+    )
+  );
 }
