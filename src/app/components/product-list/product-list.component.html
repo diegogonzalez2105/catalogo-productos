@@ -1,1 +1,40 @@
-<p>product-list works!</p>
+<div class="page">
+  <header class="page-header">
+    <div class="header-content">
+      <p class="header-eyebrow">Colección completa</p>
+      <h1 class="header-title">Catálogo de <em>Productos</em></h1>
+      @if (!(loading$ | async) && !(error$ | async)) {
+        <p class="header-count">{{ (products$ | async)?.length }} productos disponibles</p>
+      }
+    </div>
+    @if (!(loading$ | async) && !(error$ | async)) {
+      <app-sort-controls (sortChange)="onSortChange($event)" />
+    }
+  </header>
+
+  @if (loading$ | async) {
+    <div class="loading-grid">
+      @for (item of [1,2,3,4,5,6,7,8,9,10,11,12]; track item) {
+        <div class="skeleton-card">
+          <div class="skeleton-img"></div>
+          <div class="skeleton-body">
+            <div class="skeleton-line short"></div>
+            <div class="skeleton-line"></div>
+            <div class="skeleton-line medium"></div>
+          </div>
+        </div>
+      }
+    </div>
+  } @else if (error$ | async) {
+    <div class="error-state">
+      <span>⚠</span>
+      <p>Error al cargar los productos</p>
+    </div>
+  } @else {
+    <div class="products-grid">
+      @for (product of (products$ | async) ?? []; track product.id) {
+        <app-product-card [product]="product" />
+      }
+    </div>
+  }
+</div>
