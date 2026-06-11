@@ -1,1 +1,18 @@
-<p>carousel works!</p>
+<div class="carousel">
+  <div class="carousel-track">
+    <img [src]="images[currentIndex()]" [alt]="alt" class="carousel-img" />
+  </div>
+  @if (images.length > 1) {
+    <button class="carousel-btn prev" (click)="prev()" aria-label="Anterior">&#8249;</button>
+    <button class="carousel-btn next" (click)="next()" aria-label="Siguiente">&#8250;</button>
+    <div class="carousel-dots">
+      @for (img of images; track $index) {
+        <button
+          class="dot"
+          [class.active]="$index === currentIndex()"
+          (click)="goTo($index)"
+        ></button>
+      }
+    </div>
+  }
+</div>
