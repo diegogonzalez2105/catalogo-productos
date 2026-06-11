@@ -1,1 +1,47 @@
-<p>cart works!</p>
+<div class="cart">
+  <div class="cart-header">
+    <h2 class="cart-title">
+      Carrito
+      @if ((totalItems$ | async) ?? 0 > 0) {
+        <span class="item-count">{{ totalItems$ | async }} ítems</span>
+      }
+    </h2>
+    <button class="close-btn" (click)="close.emit()">✕</button>
+  </div>
+
+  @if ((items$ | async)?.length === 0) {
+    <div class="empty-cart">
+      <p>Tu carrito está vacío</p>
+      <span>Agrega productos para comenzar</span>
+    </div>
+  } @else {
+    <div class="cart-items">
+      @for (item of (items$ | async) ?? []; track item.product.id) {
+        <div class="cart-item">
+          <img [src]="item.product.thumbnail" [alt]="item.product.title" class="item-thumb" />
+          <div class="item-info">
+            <p class="item-name">{{ item.product.title }}</p>
+            <span class="item-price">${{ item.product.price | number:'1.2-2' }} c/u</span>
+            <div class="qty-controls">
+              <button class="qty-btn" (click)="decrease(item.product.id)">−</button>
+              <span class="qty">{{ item.quantity }}</span>
+              <button class="qty-btn" (click)="add(item.product)">+</button>
+            </div>
+          </div>
+          <div class="item-total-col">
+            <span class="item-total">${{ (item.product.price * item.quantity) | number:'1.2-2' }}</span>
+            <button class="remove-btn" (click)="remove(item.product.id)">🗑</button>
+          </div>
+        </div>
+      }
+    </div>
+    <div class="cart-footer">
+      <div class="total-row">
+        <span>Total</span>
+        <span class="total-price">${{ totalPrice$ | async | number:'1.2-2' }}</span>
+      </div>
+      <button class="checkout-btn" (click)="clear()">Finalizar compra</button>
+      <button class="clear-btn" (click)="clear()">Vaciar carrito</button>
+    </div>
+  }
+</div>

@@ -1,1 +1,25 @@
-<p>navbar works!</p>
+<nav class="navbar">
+  <a routerLink="/" class="brand">
+    <span class="brand-icon">◈</span>
+    <span class="brand-name">Shop<em>Catalog</em></span>
+  </a>
+  <div class="nav-actions">
+    <button class="cart-btn" (click)="toggleCart()" [class.active]="cartOpen()">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/>
+        <line x1="3" y1="6" x2="21" y2="6"/>
+        <path d="M16 10a4 4 0 01-8 0"/>
+      </svg>
+      @if ((totalItems$ | async) ?? 0 > 0) {
+        <span class="cart-badge">{{ totalItems$ | async }}</span>
+      }
+    </button>
+  </div>
+</nav>
+
+@if (cartOpen()) {
+  <div class="cart-overlay" (click)="toggleCart()"></div>
+  <div class="cart-drawer">
+    <app-cart (close)="toggleCart()" />
+  </div>
+}
