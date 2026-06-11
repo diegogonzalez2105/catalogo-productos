@@ -1,1 +1,43 @@
-<p>product-card works!</p>
+<article class="card" [routerLink]="['/product', product.id]">
+  <div class="card-image">
+    <app-carousel [images]="product.images" [alt]="product.title" />
+    @if (product.discountPercentage > 5) {
+      <span class="discount-badge">-{{ product.discountPercentage | number:'1.0-0' }}%</span>
+    }
+    @if (product.availabilityStatus === 'Low Stock') {
+      <span class="stock-badge">Pocas unidades</span>
+    }
+  </div>
+  <div class="card-body">
+    <span class="category">{{ product.category }}</span>
+    <h3 class="title">{{ product.title }}</h3>
+    <div class="rating">
+      @for (star of getStars(); track star) {
+        <span class="star" [class.filled]="star <= product.rating">★</span>
+      }
+      <span class="rating-val">{{ product.rating | number:'1.1-1' }}</span>
+    </div>
+    <div class="price-row">
+      <div class="prices">
+        <span class="price">${{ getDiscountedPrice() | number:'1.2-2' }}</span>
+        @if (product.discountPercentage > 0) {
+          <span class="original-price">${{ product.price | number:'1.2-2' }}</span>
+        }
+      </div>
+      <span class="stock-info" [class.low]="product.stock < 10">
+        Stock: {{ product.stock }}
+      </span>
+    </div>
+    <button
+      class="add-btn"
+      (click)="addToCart($event)"
+      [class.in-cart]="isInCart$ | async"
+    >
+      @if (isInCart$ | async) {
+        ✓ En el carrito ({{ itemQuantity$ | async }})
+      } @else {
+        + Agregar al carrito
+      }
+    </button>
+  </div>
+</article>
