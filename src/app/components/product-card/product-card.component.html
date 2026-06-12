@@ -29,15 +29,15 @@
       </span>
     </div>
     <button
-      class="add-btn"
-      (click)="addToCart($event)"
-      [class.in-cart]="isInCart$ | async"
-    >
-      @if (isInCart$ | async) {
-        ✓ En el carrito ({{ itemQuantity$ | async }})
-      } @else {
-        + Agregar al carrito
-      }
-    </button>
+  class="add-btn"
+  (click)="addToCart($event)"
+  [class.in-cart]="isInCart$ | async"
+>
+  @if (isInCart$ | async) {
+    ✓ En el carrito ({{ itemQuantity$ | async }})
+  } @else {
+    + Agregar al carrito
+  }
+</button>
   </div>
 </article>

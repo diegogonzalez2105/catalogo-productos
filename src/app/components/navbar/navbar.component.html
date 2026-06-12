@@ -17,9 +17,7 @@
   </div>
 </nav>
 
-@if (cartOpen()) {
-  <div class="cart-overlay" (click)="toggleCart()"></div>
-  <div class="cart-drawer">
-    <app-cart (close)="toggleCart()" />
-  </div>
-}
+<div class="cart-overlay" [class.visible]="cartOpen()" (click)="toggleCart()"></div>
+<div class="cart-drawer" [class.open]="cartOpen()">
+  <app-cart (close)="toggleCart()" />
+</div>

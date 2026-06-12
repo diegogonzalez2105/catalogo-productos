@@ -1,7 +1,8 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, Input, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
 import { Product } from '../../models/product.model';
 import { addToCart } from '../../store/cart/cart.actions';
 import { selectIsInCart, selectItemQuantity } from '../../store/cart/cart.selectors';
@@ -14,12 +15,12 @@ import { CarouselComponent } from '../carousel/carousel.component';
   templateUrl: './product-card.component.html',
   styleUrls: ['./product-card.component.scss']
 })
-export class ProductCardComponent {
+export class ProductCardComponent implements OnInit {
   @Input({ required: true }) product!: Product;
   private readonly store = inject(Store);
 
-  isInCart$ = this.store.select(selectIsInCart(this.product?.id));
-  itemQuantity$ = this.store.select(selectItemQuantity(this.product?.id));
+  isInCart$!: Observable<boolean>;
+  itemQuantity$!: Observable<number>;
 
   ngOnInit(): void {
     this.isInCart$ = this.store.select(selectIsInCart(this.product.id));
